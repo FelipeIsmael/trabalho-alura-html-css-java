@@ -1,0 +1,147 @@
+file:///C:/Users/Usu%C3%A1rio/Downloads/Trabalho%20alura.html
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferramenta Interativa de Estudo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #quiz-container {
+            text-align: left;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-left: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Quiz Interativo de Estudo</h1>
+        <div id="quiz-container">
+            <!-- Perguntas irão aparecer aqui -->
+        </div>
+        <button id="submit-btn">Enviar Respostas</button>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                pergunta: "Qual é a capital da França?",
+                a: "Berlim",
+                b: "Madri",
+                c: "Paris",
+                d: "Londres",
+                correta: "c"
+            },
+            {
+                pergunta: "Quem escreveu 'Dom Quixote'?",
+                a: "William Shakespeare",
+                b: "Miguel de Cervantes",
+                c: "Gabriel García Márquez",
+                d: "Jorge Luis Borges",
+                correta: "b"
+            },
+            {
+                pergunta: "Qual é o maior planeta do Sistema Solar?",
+                a: "Terra",
+                b: "Marte",
+                c: "Júpiter",
+                d: "Saturno",
+                correta: "c"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultadoEl = document.getElementById('resultado');
+
+        // Função para carregar perguntas
+        function carregarQuiz() {
+            quizData.forEach((pergunta, index) => {
+                const questionEl = document.createElement('div');
+                questionEl.classList.add('question');
+                
+                const questionHTML = `
+                    <h3>${index + 1}. ${pergunta.pergunta}</h3>
+                    <label><input type="radio" name="questao${index}" value="a"> ${pergunta.a}</label><br>
+                    <label><input type="radio" name="questao${index}" value="b"> ${pergunta.b}</label><br>
+                    <label><input type="radio" name="questao${index}" value="c"> ${pergunta.c}</label><br>
+                    <label><input type="radio" name="questao${index}" value="d"> ${pergunta.d}</label><br>
+                `;
+                questionEl.innerHTML = questionHTML;
+                quizContainer.appendChild(questionEl);
+            });
+        }
+
+        // Função para verificar as respostas
+        function verificarRespostas() {
+            let pontuacao = 0;
+            quizData.forEach((pergunta, index) => {
+                const respostaSelecionada = document.querySelector(`input[name="questao${index}"]:checked`);
+                if (respostaSelecionada && respostaSelecionada.value === pergunta.correta) {
+                    pontuacao++;
+                }
+            });
+            resultadoEl.innerHTML = `Você acertou ${pontuacao} de ${quizData.length} perguntas.`;
+        }
+
+        // Carregar o quiz ao abrir a página
+        carregarQuiz();
+
+        // Adicionar evento ao botão de enviar
+        submitBtn.addEventListener('click', verificarRespostas);
+    </script>
+</body>
+</html>
